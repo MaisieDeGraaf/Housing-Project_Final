@@ -127,3 +127,5 @@ def weather():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+#@app.route('api/v1.0/pricing_predictions/latitude:<lat>/longitude:<lon>/floor_size:<floor>/bedrooms:<beds>/bathrooms<baths>/garage:<garage>/price:<price>/burlington:<bur>/')
