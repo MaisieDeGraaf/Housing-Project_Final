@@ -6,6 +6,8 @@ from flask import Flask, jsonify, render_template
 import json
 from api_keys import mongo_username,mongo_password
 import ssl
+import tensorflow as tf
+import numpy as np
 import pickle
 
 #################################################
@@ -39,7 +41,7 @@ app = Flask(__name__)
     #Below I am taking a random index.html file to test
 @app.route("/")
 def main():
-    return (render_template('FinalProjectTest.html'))
+    return (render_template('index.html'))
 
 #2.API Page
     # the below json_util formula came from stack overflow https://stackoverflow.com/questions/16586180/typeerror-objectid-is-not-json-serializable
@@ -127,3 +129,18 @@ def weather():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+@app.route('/api/v1.0/predictions/<lat>/<lon>/<floor>/<beds>/<baths>/<garage>/<price>/<condo>/<det>/<townh>/<other>')
+def predictions(lat, lon, floor,beds,baths,garage,price,condo,det,townh,other):
+        with open('Scaler.pk1','rb') as f:
+            scaler = pickle.load(f)
+            new_model = tf.keras.models.load_model('Neural_Network.h5')
+            X_new = np.array([int(lat),int(lon),int(floor),int(beds),int(baths),int(garage),int(price),int(condo),int(det),int(townh),int(other)])
+            X_new_scaled =  scaler.transform(X_new.reshape(1,11)) #first, we give a random array
+            prediction = new_model.predict(X_new_scaled) #now we can
+            prediction = np.where(prediction > 0.5,1,0)
+            output = [int(i) for i in prediction]
+            response = {
+                'prediction' :output
+            }
+            return jsonify(response)        
