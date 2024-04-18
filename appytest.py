@@ -6,12 +6,11 @@ from flask import Flask, jsonify, render_template
 import json
 from api_keys import mongo_username,mongo_password
 import ssl
-import pickle
 
 #################################################
 # Database Setup
 #################################################
-connection_string = f"mongodb+srv://{mongo_username}:{mongo_password}@cluster0.9gjuly6.mongodb.net/mydatabase"
+connection_string = "mongodb+srv://maisie:RTQH6l0wjghKk637@cluster0.9gjuly6.mongodb.net/mydatabase"
 
 # Create the MongoClient instance with SSL/TLS options
 mongo = MongoClient(connection_string)
@@ -51,7 +50,7 @@ def api_data():
     output = []
     for x in results:
         output.append(x) 
-    return jsonify(json.loads(json_util.dumps(output)))
+    return json.loads(json_util.dumps(output))
                 
 @app.route("/api/v1.0/oakville")
 def api_oakville():
@@ -60,7 +59,7 @@ def api_oakville():
     output = []
     for x in results:
         output.append(x) 
-    return jsonify(json.loads(json_util.dumps(output)))
+    return json.loads(json_util.dumps(output))
 
 @app.route("/api/v1.0/oshawa")
 def api_oshawa():
@@ -69,7 +68,7 @@ def api_oshawa():
     output = []
     for x in results:
         output.append(x) 
-    return jsonify(json.loads(json_util.dumps(output)))
+    return json.loads(json_util.dumps(output))
 
 @app.route("/api/v1.0/milton")
 def api_milton():
@@ -78,7 +77,7 @@ def api_milton():
     output = []
     for x in results:
         output.append(x) 
-    return jsonify(json.loads(json_util.dumps(output)))
+    return json.loads(json_util.dumps(output))
 
 @app.route("/api/v1.0/burlington")
 def api_burlington():
@@ -87,7 +86,7 @@ def api_burlington():
     output = []
     for x in results:
         output.append(x) 
-    return jsonify(json.loads(json_util.dumps(output)))
+    return json.loads(json_util.dumps(output))
 
 @app.route("/api/v1.0/vaughan")
 def api_vaughan():
@@ -96,7 +95,7 @@ def api_vaughan():
     output = []
     for x in results:
         output.append(x) 
-    return jsonify(json.loads(json_util.dumps(output)))
+    return json.loads(json_util.dumps(output))
 
 @app.route("/api/v1.0/leisure")
 def api_leisure():
@@ -105,7 +104,7 @@ def api_leisure():
     output = []
     for x in results:
         output.append(x) 
-    return jsonify(json.loads(json_util.dumps(output)))
+    return json.loads(json_util.dumps(output))
 
 @app.route("/api/v1.0/sold-houses")
 def api_sold_houses():
@@ -114,7 +113,7 @@ def api_sold_houses():
     output = []
     for x in results:
         output.append(x) 
-    return jsonify(json.loads(json_util.dumps(output)))
+    return json.loads(json_util.dumps(output))
 
 @app.route("/api/v1.0/weather")
 def weather():
@@ -123,18 +122,7 @@ def weather():
     output = []
     for x in results:
         output.append(x) 
-    return jsonify(json.loads(json_util.dumps(output)))
+    return json.loads(json_util.dumps(output))
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-@app.route('/api/v1.0/pricing_predictions/latitude:<lat>/longitude:<lon>/floor_size:<floor>/bedrooms:<beds>/bathrooms:<baths>/garage:<garage>/price:<price>/condominium:<condo>/detached:<det>/townhouse:<th>/other:<oth>')
-def price_predictions(lat, lon, floor,beds,baths,garage,price,condo,det,th,oth):
-    with open('neuralnetwork.pk1','rb') as f:
-        model = pickle.load(f)
-        prediction = model.predict([int(lat),int(lon),int(floor),int(beds),int(baths),int(garage),int(price),int(condo),int(det),int(th),int(oth)])
-        output = [int(i) for i in prediction]s
-        response = {
-            'prediction' :output
-        }
-        return jsonify(response)        
