@@ -128,4 +128,13 @@ def weather():
 if __name__ == '__main__':
     app.run(debug=True)
 
-#@app.route('api/v1.0/pricing_predictions/latitude:<lat>/longitude:<lon>/floor_size:<floor>/bedrooms:<beds>/bathrooms<baths>/garage:<garage>/price:<price>/burlington:<bur>/')
+@app.route('/api/v1.0/pricing_predictions/latitude:<lat>/longitude:<lon>/floor_size:<floor>/bedrooms:<beds>/bathrooms:<baths>/garage:<garage>/price:<price>/condominium:<condo>/detached:<det>/townhouse:<th>/other:<oth>')
+def price_predictions(lat, lon, floor,beds,baths,garage,price,condo,det,th,oth):
+    with open('neuralnetwork.pk1','rb') as f:
+        model = pickle.load(f)
+        prediction = model.predict([int(lat),int(lon),int(floor),int(beds),int(baths),int(garage),int(price),int(condo),int(det),int(th),int(oth)])
+        output = [int(i) for i in prediction]s
+        response = {
+            'prediction' :output
+        }
+        return jsonify(response)        
