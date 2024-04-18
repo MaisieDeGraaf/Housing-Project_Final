@@ -72,7 +72,10 @@ d3.json(URL)
     let houseStatusLabels = Object.keys(houseStatusCounts);
     let houseStatusData = Object.values(houseStatusCounts);
 
-    
+    const cityDropdown=document.getElementById("cityDropdown");
+    cityDropdown.addEventListener("change", function(event){
+        console.log("clicked")
+    })
     // Populate dropdown menu
     const dropdown = d3.select("#cityDropdown");
     const citys = ["All Cities","Burlington", "Milton", "Oakville","Oshawa", "Vaughan"];
@@ -100,7 +103,12 @@ d3.json(URL)
                 houseStatusCounts[houseStatus]++;
             }
         });
-
+        dropdown.on("change", function() {
+             const selectedCity = dropdown.property("#");
+             updateChartsAndMetadata(selectedCity);
+        console.log("option change")
+        });
+        
         // Get house status labels and counts
         let houseStatusLabels = Object.keys(houseStatusCounts);
         let houseStatusData = Object.values(houseStatusCounts);
@@ -157,6 +165,7 @@ d3.json(URL)
     dropdown.selectAll("a").on("click", function() {
         const selectedCity = d3.select(this).text();
         updateCharts(selectedCity);
+        console.log("hello")
     });
 
     // Extract house types and their counts
