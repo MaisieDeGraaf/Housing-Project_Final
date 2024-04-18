@@ -6,12 +6,11 @@ from flask import Flask, jsonify, render_template
 import json
 from api_keys import mongo_username,mongo_password
 import ssl
-import pickle
 
 #################################################
 # Database Setup
 #################################################
-connection_string = f"mongodb+srv://{mongo_username}:{mongo_password}@cluster0.9gjuly6.mongodb.net/mydatabase"
+connection_string = "mongodb+srv://maisie:RTQH6l0wjghKk637@cluster0.9gjuly6.mongodb.net/mydatabase"
 
 # Create the MongoClient instance with SSL/TLS options
 mongo = MongoClient(connection_string)
@@ -51,7 +50,7 @@ def api_data():
     output = []
     for x in results:
         output.append(x) 
-    return jsonify(json.loads(json_util.dumps(output)))
+    return json.loads(json_util.dumps(output))
                 
 @app.route("/api/v1.0/oakville")
 def api_oakville():
@@ -60,7 +59,7 @@ def api_oakville():
     output = []
     for x in results:
         output.append(x) 
-    return jsonify(json.loads(json_util.dumps(output)))
+    return json.loads(json_util.dumps(output))
 
 @app.route("/api/v1.0/oshawa")
 def api_oshawa():
@@ -69,7 +68,7 @@ def api_oshawa():
     output = []
     for x in results:
         output.append(x) 
-    return jsonify(json.loads(json_util.dumps(output)))
+    return json.loads(json_util.dumps(output))
 
 @app.route("/api/v1.0/milton")
 def api_milton():
@@ -78,7 +77,7 @@ def api_milton():
     output = []
     for x in results:
         output.append(x) 
-    return jsonify(json.loads(json_util.dumps(output)))
+    return json.loads(json_util.dumps(output))
 
 @app.route("/api/v1.0/burlington")
 def api_burlington():
@@ -87,7 +86,7 @@ def api_burlington():
     output = []
     for x in results:
         output.append(x) 
-    return jsonify(json.loads(json_util.dumps(output)))
+    return json.loads(json_util.dumps(output))
 
 @app.route("/api/v1.0/vaughan")
 def api_vaughan():
@@ -96,7 +95,7 @@ def api_vaughan():
     output = []
     for x in results:
         output.append(x) 
-    return jsonify(json.loads(json_util.dumps(output)))
+    return json.loads(json_util.dumps(output))
 
 @app.route("/api/v1.0/leisure")
 def api_leisure():
@@ -105,7 +104,7 @@ def api_leisure():
     output = []
     for x in results:
         output.append(x) 
-    return jsonify(json.loads(json_util.dumps(output)))
+    return json.loads(json_util.dumps(output))
 
 @app.route("/api/v1.0/sold-houses")
 def api_sold_houses():
@@ -114,7 +113,7 @@ def api_sold_houses():
     output = []
     for x in results:
         output.append(x) 
-    return jsonify(json.loads(json_util.dumps(output)))
+    return json.loads(json_util.dumps(output))
 
 @app.route("/api/v1.0/weather")
 def weather():
@@ -123,7 +122,7 @@ def weather():
     output = []
     for x in results:
         output.append(x) 
-    return jsonify(json.loads(json_util.dumps(output)))
+    return json.loads(json_util.dumps(output))
 
 if __name__ == '__main__':
     app.run(debug=True)
