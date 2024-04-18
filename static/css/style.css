@@ -32,16 +32,6 @@ footer {
   border-radius: 10px; 
   text-align: center;
 }
-.dropbtn {
-  background-color: rgba(75, 192, 161, 0.9); 
-  padding: 10px;
-  font-size: 16px;
-  border: none;
-  border-radius: 5px;
-  text-align: center; 
-  display: block; 
-  margin: 0 auto; 
-}
 
 
 .card-title {
@@ -105,4 +95,26 @@ footer p {
 }
 #weather-header {
   font-size: 20px; 
+}
+.dropdown-hover:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  background-color: #343a40; /* Background color for the dropdown menu */
+  min-width: 10rem; /* Set a minimum width for the dropdown menu */
+  z-index: 1000; /* Ensure the dropdown is above other elements */
+}
+
+.dropdown-menu a {
+  display: block;
+  padding: 0.5rem 1rem; /* Adjust padding as needed */
+  color: #fff; /* Text color for dropdown items */
+  text-decoration: none;
+}
+
+.dropdown-menu a:hover {
+  background-color: #495057; /* Background color on hover */
 }
