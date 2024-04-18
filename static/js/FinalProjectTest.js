@@ -74,7 +74,7 @@ d3.json(URL)
 
     
     // Populate dropdown menu
-    const dropdown = d3.select("#cityDropdown");
+    const dropdown = d3.select("cityDropdown");
     const citys = ["All Cities","Burlington", "Milton", "Oakville","Oshawa", "Vaughan"];
 
     dropdown.selectAll("a")
