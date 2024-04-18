@@ -84,6 +84,7 @@ d3.json(URL)
         .text(function(d) { return d; })
         .attr("href", "#");
 
+        
    // Function to update charts based on selected city
     function updateCharts(selectedCity) {
         // Filter data for the selected city or show all data if "All Cities" is selected
