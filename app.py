@@ -8,6 +8,7 @@ from api_keys import mongo_username,mongo_password
 import ssl
 import tensorflow as tf
 import numpy as np
+import pickle
 
 #################################################
 # Database Setup
@@ -129,14 +130,17 @@ def weather():
 if __name__ == '__main__':
     app.run(debug=True)
 
-@app.route('/api/v1.0/pricing_predictions/latitude:<lat>/longitude:<lon>/floor_size:<floor>/bedrooms:<beds>/bathrooms:<baths>/garage:<garage>/price:<price>/condominium:<condo>/detached:<det>/townhouse:<th>/other:<oth>')
-def price_predictions(lat, lon, floor,beds,baths,garage,price,condo,det,th,oth):
-        new_model = tf.keras.models.load_model('Neural_Network.h5')
-        X_new = np.array([int(lat),int(lon),int(floor),int(beds),int(baths),int(garage),int(price),int(condo),int(det),int(th),int(oth)])
-        prediction = new_model.predict(X_new.reshape(1,11))
-        prediction = np.where(prediction > 0.5,1,0)
-        output = [int(i) for i in prediction]
-        response = {
-            'prediction' :output
-        }
-        return jsonify(response)        
+@app.route('/api/v1.0/predictions/<lat>/<lon>/<floor>/<beds>/<baths>/<garage>/<price>/<condo>/<det>/<townh>/<other>')
+def predictions(lat, lon, floor,beds,baths,garage,price,condo,det,townh,other):
+        with open('Scaler.pk1','rb') as f:
+            scaler = pickle.load(f)
+            new_model = tf.keras.models.load_model('Neural_Network.h5')
+            X_new = np.array([int(lat),int(lon),int(floor),int(beds),int(baths),int(garage),int(price),int(condo),int(det),int(townh),int(other)])
+            X_new_scaled =  scaler.transform(X_new.reshape(1,11)) #first, we give a random array
+            prediction = new_model.predict(X_new_scaled) #now we can
+            prediction = np.where(prediction > 0.5,1,0)
+            output = [int(i) for i in prediction]
+            response = {
+                'prediction' :output
+            }
+            return jsonify(response)        
