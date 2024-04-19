@@ -56,12 +56,12 @@
                      Cities
                   </a>
                   <ul class="dropdown-menu" aria-labelledby="cityDropdown" onchange="optionChanged(this.value)">
-                     <a class="dropdown-item" href="#" data-info="All Cities">All Cities</a>
-                     <a class="dropdown-item" href="#" data-info="Burlington">Burlington</a>
-                     <a class="dropdown-item" href="#" data-info="Milton">Milton</a>
-                     <a class="dropdown-item" href="#" data-info="Oakville">Oakville</a>
-                     <a class="dropdown-item" href="#" data-info="Oshawa">Oshawa</a>
-                     <a class="dropdown-item" href="#" data-info="Vaughan">Vaughan</a>
+                     <li><a class="dropdown-item" href="#" id="AllCities">All Cities</a></li>
+                     <li><a class="dropdown-item" href="#" id="Burlington">Burlington</a></li>
+                     <li><a class="dropdown-item" href="#" id="Milton">Milton</a></li>
+                     <li><a class="dropdown-item" href="#" id="Oakville">Oakville</a></li>
+                     <li><a class="dropdown-item" href="#" id="Oshawa">Oshawa</a></li>
+                     <li><a class="dropdown-item" href="#" id="Vaughan">Vaughan</a></li>
                   </ul>
                </li>
                <li class="nav-item dropdown dropdown-hover">
@@ -149,5 +149,44 @@
       <script type="text/javascript" src="static/js/logic.js"></script>
       <!-- Our CSS -->
       <link rel="stylesheet" type="text/css" href="static/css/style.css">
+
+      <!-- Dropdown Change Event Script -->
+      <!-- <script>
+         document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('cityDropdown').addEventListener('change', function() {
+               const selectedCity = this.value;
+               updateCharts(selectedCity);
+            });
+         });
+         // Get the navbar links by their IDs
+  const AllCities = document.getElementById("AllCities");
+  const Burlington = document.getElementById("Burlington");
+  const Milton = document.getElementById("Milton");
+  const Oakville = document.getElementById("Oakville");
+  const Oshawa = document.getElementById("Oshawa");
+  const Vaughan = document.getElementById("Vaughan");
+
+  // Add click event listeners to each link
+  AllCities.addEventListener("click", changeRoute);
+  Burlington.addEventListener("click", changeRoute);
+  Milton.addEventListener("click", changeRoute);
+  Oakville.addEventListener("click", handleDropdownAction);
+  Oshawa.addEventListener("click", handleDropdownAction);
+  Vaughan.addEventListener("click", handleDropdownAction);
+
+  function changeRoute(event) {
+    event.preventDefault(); // Prevent the default link behavior
+    const route = event.target.getAttribute("href");
+    console.log(event)
+    // window.location.href = route;
+  }
+
+  function handleDropdownAction(event) {
+    event.preventDefault();
+    const action = event.target.innerText;
+    alert(`Performing action: ${action}`);
+  } -->
+
+<!-- </script> -->
    </body>
 </html>

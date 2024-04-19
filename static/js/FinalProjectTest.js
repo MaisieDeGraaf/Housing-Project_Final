@@ -55,10 +55,8 @@ d3.json(URL)
   .then(function(data) {
     // Log the loaded data for verification
     console.log(data);
-
     // Extract house status types and their counts
     let houseStatusCounts = {};
-
     data.forEach(function(item) {
       let houseStatus = item.status;
       if (!houseStatusCounts[houseStatus]) {
@@ -67,7 +65,6 @@ d3.json(URL)
         houseStatusCounts[houseStatus]++;
       }
     });
-
     // Get house status labels and counts
     let houseStatusLabels = Object.keys(houseStatusCounts);
     let houseStatusData = Object.values(houseStatusCounts);
@@ -77,24 +74,50 @@ d3.json(URL)
         console.log("clicked")
     })
     // Populate dropdown menu
-    const dropdown = d3.select("#cityDropdown");
+    const dropdown = d3.select("cityDropdown");
     const citys = ["All Cities","Burlington", "Milton", "Oakville","Oshawa", "Vaughan"];
-
     dropdown.selectAll("a")
         .data(citys)
         .enter()
         .append("a")
         .text(function(d) { return d; })
         .attr("href", "#");
+       // Get the navbar links by their IDs
+const AllCities = document.getElementById("AllCities");
+const Burlington = document.getElementById("Burlington");
+const Milton = document.getElementById("Milton");
+const Oakville = document.getElementById("Oakville");
+const Oshawa = document.getElementById("Oshawa");
+const Vaughan = document.getElementById("Vaughan");
+// Add click event listeners to each link
+AllCities.addEventListener("click", handleDropdownAction);
+Burlington.addEventListener("click", handleDropdownAction);
+Milton.addEventListener("click", handleDropdownAction);
+Oakville.addEventListener("click", handleDropdownAction);
+Oshawa.addEventListener("click", handleDropdownAction);
+Vaughan.addEventListener("click", handleDropdownAction);
+// AllCities.addEventListener("click", changeRoute);
 
-        
+function changeRoute(event) {
+event.preventDefault(); // Prevent the default link behavior
+const route = event.target.getAttribute("href");
+console.log(event)
+// window.location.href = route;
+}
+function handleDropdownAction(event) {
+event.preventDefault();
+const action = event.target.innerText;
+// alert(`Performing action: ${action}`);
+console.log(action)
+updateCharts(action);
+}
    // Function to update charts based on selected city
     function updateCharts(selectedCity) {
+        console.log(`inside updatecharts : ${selectedCity}`)
         // Filter data for the selected city or show all data if "All Cities" is selected
         const cityData = selectedCity === "All Cities" ? data : data.filter(item => item.city === selectedCity);
         // Extract house status types and their counts
         let houseStatusCounts = {};
-
         cityData.forEach(function(item) { // Change 'data' to 'cityData'
             let houseStatus = item.status;
             if (!houseStatusCounts[houseStatus]) {
@@ -108,11 +131,9 @@ d3.json(URL)
              updateChartsAndMetadata(selectedCity);
         console.log("option change")
         });
-        
         // Get house status labels and counts
         let houseStatusLabels = Object.keys(houseStatusCounts);
         let houseStatusData = Object.values(houseStatusCounts);
-
         // Extract list and sale prices for the selected city
         const neighborhoodPrices = {};
         cityData.forEach(item => {
@@ -123,7 +144,6 @@ d3.json(URL)
             }
             neighborhoodPrices[neighborhood].push(price);
         });
-
         // Calculate average prices for each neighborhood in the selected city
         const neighborhoodAverages = {};
         Object.keys(neighborhoodPrices).forEach(neighborhood => {
@@ -131,7 +151,6 @@ d3.json(URL)
             const averagePrice = prices.reduce((acc, cur) => acc + cur, 0) / prices.length;
             neighborhoodAverages[neighborhood] = averagePrice;
         });
-
         // Extract house types and their counts for the selected city
         let houseTypes = {};
         cityData.forEach(function(item) {
@@ -150,24 +169,14 @@ d3.json(URL)
         myChart4.data.datasets[0].data = Object.values(neighborhoodAverages);
         myChart4.update();
 
-        // Update chart 5 data
         myChart5.data.labels = Object.keys(houseTypes);
         myChart5.data.datasets[0].data = Object.values(houseTypes);
         myChart5.update();
 
-        // Update chart 7 data
         myChart7.data.labels = Object.keys(neighborhoodPrices);
         myChart7.data.datasets[0].data = Object.values(neighborhoodPrices).map(prices => prices.length);
         myChart7.update();
     }
-
-    // Event listener for dropdown change
-    dropdown.selectAll("a").on("click", function() {
-        const selectedCity = d3.select(this).text();
-        updateCharts(selectedCity);
-        console.log("hello")
-    });
-
     // Extract house types and their counts
     let houseTypes = {};
     data.forEach(function(item) {
@@ -177,7 +186,6 @@ d3.json(URL)
         }
         houseTypes[houseType]++;
     });
-
     // Step 3: Define options for your charts
     let options = {
         scales: {
@@ -248,14 +256,12 @@ d3.json(URL)
             if (neighborhoods.indexOf(neighborhood) === -1) {
                 neighborhoods.push(neighborhood);
             }
-
             averageListPricesByCity[city].push(listPrice);
             averageSalePricesByCity[city].push(salePrice);
             averageListPricesByNeighborhood[neighborhood].push(listPrice);
             averageSalePricesByNeighborhood[neighborhood].push(salePrice);
         }
     });
-
     // Calculate average prices for each city
     cities.forEach(city => {
         let totalListPrice = averageListPricesByCity[city].reduce((acc, cur) => acc + cur, 0);
@@ -269,7 +275,6 @@ d3.json(URL)
         averageListPricesByCity[city] = averageListPrice;
         averageSalePricesByCity[city] = averageSalePrice;
     });
-
     // Calculate average prices for each neighborhood
     neighborhoods.forEach(neighborhood => {
         let totalListPrice = averageListPricesByNeighborhood[neighborhood].reduce((acc, cur) => acc + cur, 0);
@@ -283,8 +288,6 @@ d3.json(URL)
         averageListPricesByNeighborhood[neighborhood] = averageListPrice;
         averageSalePricesByNeighborhood[neighborhood] = averageSalePrice;
     });
-
-   
     myChart1 = new Chart(document.getElementById('chart1'), {
         type: 'doughnut',
         data: {
@@ -322,8 +325,6 @@ d3.json(URL)
             }
         }
     });
-
-
     myChart3 = new Chart(document.getElementById('chart3'), {
         type: 'bar',
         data: {
@@ -380,7 +381,6 @@ d3.json(URL)
             }
         }
     });
-
     myChart4 = new Chart(document.getElementById('chart4'), {
       type: 'bar',
       data: {
@@ -437,7 +437,6 @@ d3.json(URL)
           }
       }
   });
-
   myChart5 = new Chart(document.getElementById('chart5'), {
     type: 'bar',
     data: {
@@ -488,9 +487,6 @@ d3.json(URL)
         }
     }
 });
-
-
-    // Add 6th chart 
     myChart6 = new Chart(document.getElementById('chart6'), {
         type: 'polarArea',
         data: {
@@ -515,8 +511,6 @@ d3.json(URL)
             }
         }
     });
-
-    // Add 7th chart 
     myChart7 = new Chart(document.getElementById('chart7'), {
         type: 'pie',
         data: {
@@ -546,3 +540,26 @@ d3.json(URL)
 }).catch(function(error) {
     console.log('Error loading data:', error);
 });
+// Updated code for triggering the navbar dropdown menu and updating charts
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize the Bootstrap Tab for the dropdown menu
+    var cityDropdown = document.getElementById('cityDropdown');
+    var tabTrigger = new bootstrap.Dropdown(cityDropdown);
+
+    // Add event listener for dropdown change event
+    cityDropdown.addEventListener('change', function(event) {
+        event.preventDefault();
+        tabTrigger.toggle(); // Toggle the dropdown menu
+        updateCharts(cityDropdown.value); // Update charts based on the selected value
+    });
+    
+});
+document.addEventListener('DOMContentLoaded', function() {
+   document.getElementById('cityDropdown').addEventListener('change', function() {
+      const selectedCity = this.value;
+      updateCharts(selectedCity);
+   });
+});
+
+
+
