@@ -27,7 +27,11 @@ let leisureUrl = "http://127.0.0.1:5000/api/v1.0/leisure";
 
 // function to add commas to List Price popup
 function numberWithCommas(x) {
+    if (x == null) {
+        return ""; //
+    }
     return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+
 }
 
 // Create map
