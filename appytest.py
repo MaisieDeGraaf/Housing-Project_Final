@@ -128,7 +128,7 @@ def weather():
 
 
 @app.route("/api/v1.0/find_houses", methods=['GET'])
-def find_houses_api():
+def find_houses():
     # Extract preTaxIncome from query parameters
     pre_tax_income = request.args.get('preTaxIncome')
 
