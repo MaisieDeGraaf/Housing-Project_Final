@@ -2,7 +2,7 @@
 from pymongo import MongoClient
 from pprint import pprint
 from bson import json_util
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template, request
 import json
 from api_keys import mongo_username,mongo_password
 import ssl
@@ -10,7 +10,8 @@ import ssl
 #################################################
 # Database Setup
 #################################################
-connection_string = "mongodb+srv://maisie:RTQH6l0wjghKk637@cluster0.9gjuly6.mongodb.net/mydatabase"
+#connection_string = "mongodb+srv://maisie:RTQH6l0wjghKk637@cluster0.9gjuly6.mongodb.net/mydatabase"
+connection_string = f"mongodb+srv://{mongo_username}:{mongo_password}@cluster0.9gjuly6.mongodb.net/mydatabase"
 
 # Create the MongoClient instance with SSL/TLS options
 mongo = MongoClient(connection_string)
@@ -25,6 +26,7 @@ all_houses = db["all_houses"]
 leisure_spaces=db['leisure_spaces']
 sold_houses = db['sold_houses']
 weather_data = db['weather_data']
+
 #################################################
 # Flask Setup
 #################################################
@@ -42,23 +44,23 @@ def main():
 
 #2.API Page
     # the below json_util formula came from stack overflow https://stackoverflow.com/questions/16586180/typeerror-objectid-is-not-json-serializable
-    
+
 @app.route("/api/v1.0/housing")
 def api_data():
     query = {"city":{"$in":['Oshawa','Oakville','Vaughan','Milton','Burlington']}}
     results = all_houses.find(query)
     output = []
     for x in results:
-        output.append(x) 
+        output.append(x)
     return json.loads(json_util.dumps(output))
-                
+
 @app.route("/api/v1.0/oakville")
 def api_oakville():
     query = {"city":'Oakville'}
     results = all_houses.find(query)
     output = []
     for x in results:
-        output.append(x) 
+        output.append(x)
     return json.loads(json_util.dumps(output))
 
 @app.route("/api/v1.0/oshawa")
@@ -67,7 +69,7 @@ def api_oshawa():
     results = all_houses.find(query)
     output = []
     for x in results:
-        output.append(x) 
+        output.append(x)
     return json.loads(json_util.dumps(output))
 
 @app.route("/api/v1.0/milton")
@@ -76,7 +78,7 @@ def api_milton():
     results = all_houses.find(query)
     output = []
     for x in results:
-        output.append(x) 
+        output.append(x)
     return json.loads(json_util.dumps(output))
 
 @app.route("/api/v1.0/burlington")
@@ -85,7 +87,7 @@ def api_burlington():
     results = all_houses.find(query)
     output = []
     for x in results:
-        output.append(x) 
+        output.append(x)
     return json.loads(json_util.dumps(output))
 
 @app.route("/api/v1.0/vaughan")
@@ -94,7 +96,7 @@ def api_vaughan():
     results = all_houses.find(query)
     output = []
     for x in results:
-        output.append(x) 
+        output.append(x)
     return json.loads(json_util.dumps(output))
 
 @app.route("/api/v1.0/leisure")
@@ -103,7 +105,7 @@ def api_leisure():
     results = leisure_spaces.find(query)
     output = []
     for x in results:
-        output.append(x) 
+        output.append(x)
     return json.loads(json_util.dumps(output))
 
 @app.route("/api/v1.0/sold-houses")
@@ -112,7 +114,7 @@ def api_sold_houses():
     results = sold_houses.find(query)
     output = []
     for x in results:
-        output.append(x) 
+        output.append(x)
     return json.loads(json_util.dumps(output))
 
 @app.route("/api/v1.0/weather")
@@ -121,7 +123,31 @@ def weather():
     results = weather_data.find(query)
     output = []
     for x in results:
-        output.append(x) 
+        output.append(x)
+    return json.loads(json_util.dumps(output))
+
+
+@app.route("/api/v1.0/find_houses", methods=['GET'])
+def find_houses_api():
+    # Extract preTaxIncome from query parameters
+    pre_tax_income = request.args.get('preTaxIncome')
+
+    # Validate preTaxIncome
+    try:
+        pre_tax_income = float(pre_tax_income)
+    except (ValueError, TypeError):
+        return "Invalid preTaxIncome value", 400
+
+    # Construct query based on preTaxIncome
+    query = {"price": {"$lte": pre_tax_income}}
+
+    # Execute query
+    results = all_houses.find(query)
+
+    # Convert results to a list
+    output = [x for x in results]
+
+    # Return JSON response
     return json.loads(json_util.dumps(output))
 
 if __name__ == '__main__':
