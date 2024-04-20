@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Affordable Housing</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2>What is affordable housing?</h2>
+    <p>The Canada Mortgage and Housing Corporation (CMHC) states that in Canada, housing is considered “affordable” if it costs less than 30% of a household’s before-tax income.</p>
+</div>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-sm-6">
+            <form id="affordableHousesForm" class="needs-validation" novalidate action="/api/v1.0/find_houses" method="GET">
+                <div class="form-group">
+                    <label for="preTaxIncome">Pre-tax Income:</label>
+                    <input type="number" class="form-control" id="preTaxIncome" name="preTaxIncome" required min="0">
+                    <div class="invalid-feedback">
+                        Please enter a number greater than zero.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="downPayment">Down Payment Amount:</label>
+                    <input type="number" class="form-control" id="downPayment" name="downPayment" required min="0">
+                    <div class="invalid-feedback">
+                        Please enter a number greater than zero.
+                    </div>
+                </div>
+                <!-- Add a hidden input field for the status -->
+                <input type="hidden" name="status" value="For Sale">
+                <button type="submit" class="btn btn-primary btn-block">Check for Houses!</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Table to display results -->
+<div class="container mt-5">
+    <h2>Listings</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Address</th>
+                <th>Type of House</th>
+                <th>Bedrooms</th>
+                <th>Bathrooms</th>
+                <th>City</th>
+                <th>Down Payment</th>
+                <th>Price</th>
+                <th>Mortgage Insurance Eligible</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody id="resultsBody">
+            <!-- Table rows will be dynamically added here -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    // Function to populate the table with data
+    function populateTable(data) {
+        var tbody = document.getElementById("resultsBody");
+        tbody.innerHTML = ''; // Clear existing data
+
+        data.forEach(function(property) {
+            var row = tbody.insertRow();
+            var fields = ['address', 'type_of_house', 'bedrooms', 'bathrooms', 'city', 'down_payment', 'price', 'mortgage_insurance_eligible', 'status'];
+            fields.forEach(function(field) {
+                var cell = row.insertCell();
+                cell.innerText = property[field];
+            });
+        });
+    }
+
+    // Sample data (replace this with your actual API response)
+    var data = [
+        {
+            "_id": {"$oid": "65e3eada4625ce6cbae3a06a"},
+            "address": "503 - 5915 Yonge Street Ave",
+            "affordable_no_down_payment": "Yes",
+            "affordable_with_down_payment": "Yes",
+            "bathrooms": 2,
+            "bedrooms": 2,
+            "city": "North York",
+            "date_listed": {"$date": "2024-03-02T00:00:00Z"},
+            "down_payment": 170,
+            "floor_size": 749,
+            "garage": 1,
+            "latitude": -79.41681,
+            "longitude": 43.78631,
+            "mortgage_insurance_eligible": "Yes",
+            "neighbourhood": "Willowdale West",
+            "price": 3400,
+            "price_minus_down_payment": 3230,
+            "sold_price": 0,
+            "status": "For Sale",
+            "type_of_house": "Condo Apt"
+        },
+        {
+            "_id": {
+                "$oid": "66187be2df7d912c9b71940d"
+            },
+            "address": "203 Goddard St ",
+            "affordable_no_down_payment": "Yes",
+            "affordable_with_down_payment": "Yes",
+            "bathrooms": 3,
+            "bedrooms": 3,
+            "city": "North York",
+            "date_listed": {
+                "$date": "2024-04-11T00:00:00Z"
+            },
+            "down_payment": 0.05,
+            "floor_size": 2427,
+            "garage": 2,
+            "latitude": -79.4521747,
+            "longitude": 43.7640031,
+            "mortgage_insurance_eligible": "Yes",
+            "neighbourhood": "Bathurst Manor",
+            "price": 1,
+            "price_minus_down_payment": 0.95,
+            "sold_price": 0,
+            "status": "For Sale",
+            "type_of_house": "Detached"
+        },
+        {
+            "_id": {
+                "$oid": "661894d301cd90686eeff868"
+            },
+            "address": "8 - 890 Sheppard Ave W",
+            "affordable_no_down_payment": "Yes",
+            "affordable_with_down_payment": "Yes",
+            "bathrooms": 0,
+            "city": "North York",
+            "date_listed": {
+                "$date": "2024-04-09T00:00:00Z"
+            },
+            "down_payment": 1375,
+            "garage": 1,
+            "latitude": -79.45603,
+            "longitude": 43.75229,
+            "mortgage_insurance_eligible": "Yes",
+            "neighbourhood": "Bathurst Manor",
+            "price": 27500,
+            "price_minus_down_payment": 26125,
+            "sold_price": 0,
+            "status": "For Sale",
+            "type_of_house": "Parking Space"
+        }
+    ];
+
+    // Call the function to populate the table with the data
+    populateTable(data);
+</script>
+
+</body>
+</html>
