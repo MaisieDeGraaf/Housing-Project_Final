@@ -11,8 +11,12 @@
             <div class="col-sm-4"></div> <!-- Left column -->
             <div class="col-sm-4"> <!-- Middle column -->
                 <form class="needs-validation" id="searchForm" action="/api/v1.0/affordable_housing" method="GET" novalidate>
-                    <input class="form-control me-2" type="number" placeholder="Enter your pre-tax income" aria-label="Search" name="preTaxIncome" id="preTaxIncomeInput" required>
-                    <button type="submit" id="searchButton" class="btn btn-dark">Search!</button>
+                    <div class="input-group">
+                        <input class="form-control me-2" type="number" placeholder="Enter your pre-tax income" aria-label="Search" name="preTaxIncome" id="preTaxIncomeInput" required>
+                        <div class="input-group-append">
+                            <button type="submit" id="searchButton" class="btn btn-dark mx-auto">Search!</button>
+                        </div>
+                    </div>
                     <div class="invalid-feedback">
                         Please enter a number greater than 0 in the search box.
                     </div>

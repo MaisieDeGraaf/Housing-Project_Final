@@ -109,5 +109,14 @@ footer {
 
 /* Chart Styles */
 .charts-container {
-  margin-bottom: 20px; /* Adjust the value as needed */
+  margin-bottom: 20px;
+}
+
+/* Search form */
+.input-group .form-control {
+  margin-right: 10px;
+}
+
+.input-group .btn {
+  margin-left: 10px;
 }

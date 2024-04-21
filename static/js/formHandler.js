@@ -20,31 +20,24 @@ function handleFormSubmission(event) {
         .catch(error => console.error('Error fetching data:', error));
 }
 
-
-// Function to populate the table with data
+// Populate the table with data
 function populateTable(data) {
     var tbody = document.getElementById("resultsBody");
     tbody.innerHTML = ''; // Clear existing data
 
     data.forEach(function(property) {
         var row = tbody.insertRow();
-        var fields = ['address', 'type_of_house', 'bedrooms', 'bathrooms', 'city', 'price', 'mortgage_insurance_eligible', 'min_down_payment_for_insurance', 'status'];
+        var fields = ['address', 'type_of_house', 'bedrooms', 'bathrooms', 'city', 'price', 'mortgage_insurance_eligible', 'down_payment', 'status'];
 
         fields.forEach(function(field) {
             var cell = row.insertCell();
-
-            // Format currency fields
-            if (field === 'price' || field === 'min_down_payment_for_insurance' || field === 'down_payment') {
-                if (!isNaN(property[field])) {
-                    var formatter = new Intl.NumberFormat('en-CA', {
-                        style: 'currency',
-                        currency: 'CAD'
-                    });
-                    cell.innerText = formatter.format(property[field]);
-                } else {
-                    console.error('Invalid value for', field + ':', property[field]);
-                    cell.innerText = 'N/A';
-                }
+            if (field === 'price' || field === 'down_payment') {
+                // Apply currency formatting for 'price' and 'down_payment' fields
+                var formatter = new Intl.NumberFormat('en-CA', {
+                    style: 'currency',
+                    currency: 'CAD'
+                });
+                cell.innerText = formatter.format(property[field]);
             } else {
                 cell.innerText = property[field];
             }
