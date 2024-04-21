@@ -38,6 +38,9 @@ function populateTable(data) {
                     currency: 'CAD'
                 });
                 cell.innerText = formatter.format(property[field]);
+            } else if (field === 'bedrooms') {
+                // Check if 'bedrooms' field exists, if no, set to 0
+                cell.innerText = property.hasOwnProperty(field) ? property[field] : 0;
             } else {
                 cell.innerText = property[field];
             }
