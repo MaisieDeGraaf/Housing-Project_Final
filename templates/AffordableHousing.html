@@ -6,30 +6,26 @@
     </div>
 
     <div class="container mt-5">
+        <p>Find some available houses based on your income.</p>
         <div class="row justify-content-center">
-            <div class="col-sm-6">
-                <form id="affordableHousesForm" class="needs-validation" action="/api/v1.0/find_houses" method="GET">
-                    <div class="form-group">
-                        <label for="preTaxIncome">Pre-tax Income:</label>
-                        <input type="number" class="form-control" id="preTaxIncome" name="preTaxIncome" required min="0">
-                        <div class="invalid-feedback">
-                            Please enter a number greater than zero.
-                        </div>
+            <div class="col-sm-4"></div> <!-- Left column -->
+            <div class="col-sm-4"> <!-- Middle column -->
+                <form class="needs-validation" id="searchForm" action="/api/v1.0/affordable_housing" method="GET" novalidate>
+                    <input class="form-control me-2" type="number" placeholder="Enter your pre-tax income" aria-label="Search" name="preTaxIncome" id="preTaxIncomeInput" required>
+                    <button type="submit" id="searchButton" class="btn btn-dark">Search!</button>
+                    <div class="invalid-feedback">
+                        Please enter a number greater than 0 in the search box.
                     </div>
-                    <div class="form-group">
-                        <label for="downPayment">Down Payment Amount:</label>
-                        <input type="number" class="form-control" id="downPayment" name="downPayment" required min="0">
-                        <div class="invalid-feedback">
-                            Please enter a number greater than zero.
-                        </div>
-                    </div>
-                    <!-- Add a hidden input field for the status -->
-                    <input type="hidden" name="status" value="For Sale">
-                    <button type="submit" class="btn btn-primary btn-block">Check for Houses!</button>
                 </form>
-            </div>
+                <!-- Danger alert for validation -->
+                <div class="alert alert-danger mt-2 d-none" id="alertMessage" role="alert">
+                    Please enter a number greater than 0 in the search box.
+                </div>
+            </div> <!-- Middle column -->
+            <div class="col-sm-4"></div> <!-- Right column -->
         </div>
     </div>
+
 
     <!-- Table to display results -->
     <div class="container mt-5">

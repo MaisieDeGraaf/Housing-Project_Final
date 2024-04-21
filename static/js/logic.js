@@ -214,9 +214,9 @@ d3.json(queryUrl).then(data => {
         
                     L.control.scale({ position: 'bottomleft', maxWidth: 150 }).addTo(myMap)})
 
-// Close dropdown menus after clicking an item
-document.querySelectorAll('.dropdown-menu').forEach(function(dropdownMenu) {
-    dropdownMenu.addEventListener('click', function(event) {
-        event.stopPropagation();
-    });
+// Initialize nav bar dropdown due to cities logic
+// Wait for DOM ready
+$(document).ready(function() {
+    // Initialize Bootstrap dropdowns
+    $('.dropdown-toggle').dropdown();
 });

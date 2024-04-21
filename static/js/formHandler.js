@@ -1,3 +1,26 @@
+// Attach event listener to form submission
+document.getElementById("searchButton").addEventListener("click", handleFormSubmission);
+
+// Function to handle form submission
+function handleFormSubmission(event) {
+    event.preventDefault(); // Prevent the default form submission behavior (sends you directly to API url)
+
+    var preTaxIncome = document.getElementById('preTaxIncomeInput').value;
+
+    // Construct the query string manually
+    var queryParams = "preTaxIncome=" + encodeURIComponent(preTaxIncome) + "&status=For Sale";
+
+    // Fetch data from the API endpoint
+    fetch('/api/v1.0/affordable_housing?' + queryParams)
+        .then(response => response.json())
+        .then(data => {
+            // Call the function to populate the table with the data
+            populateTable(data);
+        })
+        .catch(error => console.error('Error fetching data:', error));
+}
+
+
 // Function to populate the table with data
 function populateTable(data) {
     var tbody = document.getElementById("resultsBody");
@@ -28,25 +51,3 @@ function populateTable(data) {
         });
     });
 }
-
-// Function to handle form submission
-function handleFormSubmission(event) {
-    event.preventDefault(); // Prevent the default form submission behavior
-
-    var formData = new FormData(document.getElementById("affordableHousesForm"));
-    formData.append("status", "For Sale"); // Add status parameter for filtering
-
-    var queryParams = new URLSearchParams(formData).toString();
-
-    // Fetch data from the API endpoint
-    fetch('/api/v1.0/find_houses?' + queryParams)
-        .then(response => response.json())
-        .then(data => {
-            // Call the function to populate the table with the data
-            populateTable(data);
-        })
-        .catch(error => console.error('Error fetching data:', error));
-}
-
-// Attach event listener to form submission
-document.getElementById("affordableHousesForm").addEventListener("submit", handleFormSubmission);

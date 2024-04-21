@@ -45,7 +45,7 @@ def main():
     return (render_template('landing.html', is_landing=True))
 
 @app.route('/AffordableHousing.html')
-def affordablehousing():
+def affordable_housing():
     return (render_template('AffordableHousing.html'))
 
 #2.API Page
@@ -132,32 +132,18 @@ def weather():
         output.append(x)
     return json.loads(json_util.dumps(output))
 
-@app.route('/affordable_housing')
-def affordable_hosuing():
-
-    return render_template('AffordableHousing.html')
-
-    # Extract pagination parameters
-    page = request.args.get('page', default=1, type=int)
-    page_size = request.args.get('pageSize', default=10, type=int)
-
-    # Validate preTaxIncome
-    try:
-        pre_tax_income = float(pre_tax_income)
-    except (ValueError, TypeError):
-        return "Invalid preTaxIncome value", 400
-
-    # Construct query based on preTaxIncome
-    query = {"price": {"$lte": pre_tax_income}}
-
-    # Execute query with pagination
-    results = all_houses.find(query).skip((page - 1) * page_size).limit(page_size)
-
-    # Convert results to a list
-    output = [x for x in results]
-
-    # Return JSON response
-    return jsonify(json.loads(json_util.dumps(output)))
+@app.route("/api/v1.0/affordable_housing")
+def api_affordable_housing():
+    income = request.args.get('preTaxIncome', type=float)
+    status = request.args.get('status')
+    query = {"price": {"$lte": income}}
+    if status:
+        query["status"] = status
+    results = all_houses.find(query)
+    output = []
+    for x in results:
+        output.append(x)
+    return json.loads(json_util.dumps(output))
 
 @app.route('/api/v1.0/predictions/<lat>/<lon>/<floor>/<beds>/<baths>/<garage>/<price>/<condo>/<det>/<townh>/<other>')
 def predictions(lat, lon, floor,beds,baths,garage,price,condo,det,townh,other):
@@ -173,6 +159,7 @@ def predictions(lat, lon, floor,beds,baths,garage,price,condo,det,townh,other):
             response = {
                 'prediction' :output
             }
-            return (jsonify(response))  
+            return (jsonify(response))
+
 if __name__ == '__main__':
     app.run(debug=True)
