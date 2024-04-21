@@ -1,27 +1,33 @@
+/* Global Styles */
 body {
   font-family: "Open Sans", sans-serif;
   background-color: #f8f9fa;
 }
+
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 15px;
 }
+
+/* Header Styles */
 header {
   background: linear-gradient(to right, #96d7d7, #fdc38f);
   color: #ffffff;
-  padding: 20px 0;
-  border-radius: 10px;
+  padding: 12px;
   text-align: center;
-  border: 1px solid transparent; 
-  border-image: linear-gradient(to right, #76b7b7, #e3a175); 
-  border-image-slice: 1; 
+  border: 1px transparent;
+  border-image: linear-gradient(to right, #76b7b7, #e3a175);
+  border-image-slice: 1;
   font-family: "Open Sans", sans-serif;
-  font-size: 50px; /
+  font-size: 50px;
 }
+
 header h1 {
   margin: 0;
 }
+
+/* Map and Footer Styles */
 #map, body, html {
   height: 100%;
 }
@@ -29,37 +35,31 @@ header h1 {
 footer {
   background-color: #fdc38f;
   padding: 20px 0;
-  border-radius: 10px; 
+  border-radius: 10px;
   text-align: center;
+  font-size: 12px;
 }
+
+/* Dropdown Styles */
 .dropbtn {
-  background-color: rgba(75, 192, 161, 0.9); 
+  background-color: rgba(75, 192, 161, 0.9);
   padding: 10px;
   font-size: 16px;
   border: none;
   border-radius: 5px;
-  text-align: center; 
-  display: block; 
-  margin: 0 auto; 
+  text-align: center;
+  display: block;
+  margin: 0 auto;
 }
 
-.card-title {
-  text-align: center; 
-}
 .dropdown-content {
   display: none;
   background-color: #ffffff;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
   z-index: 1;
   border-radius: 5px;
-  text-align: left; 
-  position: relative; 
-}
-
-
-.card {
-  text-align: center; 
-  position: relative; 
+  text-align: left;
+  position: relative;
 }
 
 .dropdown-content a {
@@ -73,10 +73,13 @@ footer {
 .dropdown-content a:hover {
   background-color: #96d7d7;
 }
+
 .dropdown:hover .dropdown-content {
   display: block;
-  opacity: 1; 
+  opacity: 1;
 }
+
+/* Weather Styles */
 .weather-toggle {
   cursor: pointer;
   display: flex;
@@ -84,7 +87,7 @@ footer {
 }
 
 #arrow-icon {
-  margin-left: 10px; 
+  margin-left: 10px;
 }
 
 .arrow-up {
@@ -92,38 +95,28 @@ footer {
 }
 
 .weather-box {
-  display: none; /* Initially hide the weather box */
-  color:rgb(70, 70, 70);
+  display: none;
+  color: rgb(70, 70, 70);
   background-color: #f0f0f0;
   border-radius: 10px;
   padding: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-footer p {
-  font-size: 12px;
-}
+
 #weather-header {
-  font-size: 20px; 
-}
-.dropdown-hover:hover .dropdown-menu {
-  display: block;
+  font-size: 20px;
 }
 
-.dropdown-menu {
-  display: none;
-  position: absolute;
-  background-color: #343a40; /* Background color for the dropdown menu */
-  min-width: 10rem; /* Set a minimum width for the dropdown menu */
-  z-index: 1000; /* Ensure the dropdown is above other elements */
+/* Chart Styles */
+.charts-container {
+  margin-bottom: 20px;
 }
 
-.dropdown-menu a {
-  display: block;
-  padding: 0.5rem 1rem; /* Adjust padding as needed */
-  color: #fff; /* Text color for dropdown items */
-  text-decoration: none;
+/* Search form */
+.input-group .form-control {
+  margin-right: 10px;
 }
 
-.dropdown-menu a:hover {
-  background-color: #495057; /* Background color on hover */
+.input-group .btn {
+  margin-left: 10px;
 }

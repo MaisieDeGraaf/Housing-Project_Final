@@ -42,7 +42,11 @@ app = Flask(__name__)
     #Below I am taking a random index.html file to test
 @app.route("/")
 def main():
-    return (render_template('FinalProjectTest.html'))
+    return (render_template('landing.html', is_landing=True))
+
+@app.route('/AffordableHousing.html')
+def affordable_housing():
+    return (render_template('AffordableHousing.html'))
 
 #2.API Page
     # the below json_util formula came from stack overflow https://stackoverflow.com/questions/16586180/typeerror-objectid-is-not-json-serializable
@@ -128,11 +132,18 @@ def weather():
         output.append(x)
     return json.loads(json_util.dumps(output))
 
-@app.route('/affordable_housing')
-def affordable_hosuing():
-
-    return render_template('AffordableHousing.html')
-
+@app.route("/api/v1.0/affordable_housing")
+def api_affordable_housing():
+    income = request.args.get('preTaxIncome', type=float)
+    status = request.args.get('status')
+    query = {"price": {"$lte": income}}
+    if status:
+        query["status"] = status
+    results = all_houses.find(query)
+    output = []
+    for x in results:
+        output.append(x)
+    return json.loads(json_util.dumps(output))
 
 @app.route('/api/v1.0/predictions/<lat>/<lon>/<floor>/<beds>/<baths>/<garage>/<price>/<condo>/<det>/<townh>/<other>')
 def predictions(lat, lon, floor,beds,baths,garage,price,condo,det,townh,other):
@@ -148,6 +159,7 @@ def predictions(lat, lon, floor,beds,baths,garage,price,condo,det,townh,other):
             response = {
                 'prediction' :output
             }
-            return (jsonify(response))  
+            return (jsonify(response))
+
 if __name__ == '__main__':
     app.run(debug=True)
