@@ -42,7 +42,11 @@ app = Flask(__name__)
     #Below I am taking a random index.html file to test
 @app.route("/")
 def main():
-    return (render_template('FinalProjectTest.html'))
+    return (render_template('landing.html', is_landing=True))
+
+@app.route('/AffordableHousing.html')
+def affordablehousing():
+    return (render_template('AffordableHousing.html'))
 
 #2.API Page
     # the below json_util formula came from stack overflow https://stackoverflow.com/questions/16586180/typeerror-objectid-is-not-json-serializable
@@ -134,6 +138,10 @@ def find_houses():
     # Extract preTaxIncome from query parameters
     pre_tax_income = request.args.get('preTaxIncome')
 
+    # Extract pagination parameters
+    page = request.args.get('page', default=1, type=int)
+    page_size = request.args.get('pageSize', default=10, type=int)
+
     # Validate preTaxIncome
     try:
         pre_tax_income = float(pre_tax_income)
@@ -143,14 +151,14 @@ def find_houses():
     # Construct query based on preTaxIncome
     query = {"price": {"$lte": pre_tax_income}}
 
-    # Execute query
-    results = all_houses.find(query)
+    # Execute query with pagination
+    results = all_houses.find(query).skip((page - 1) * page_size).limit(page_size)
 
     # Convert results to a list
     output = [x for x in results]
 
     # Return JSON response
-    return json.loads(json_util.dumps(output))
+    return jsonify(json.loads(json_util.dumps(output)))
 
 @app.route('/api/v1.0/predictions/<lat>/<lon>/<floor>/<beds>/<baths>/<garage>/<price>/<condo>/<det>/<townh>/<other>')
 def predictions(lat, lon, floor,beds,baths,garage,price,condo,det,townh,other):

@@ -38,6 +38,7 @@ function numberWithCommas(x) {
 let myMap = L.map("map-id", {
     center: [43.6550, -79.2801],
     zoom: 9.2,
+    zoomControl: false
 });
 
 // Add OpenStreetMap as a base layer
@@ -212,4 +213,10 @@ d3.json(queryUrl).then(data => {
                     }).addTo(myMap);
         
                     L.control.scale({ position: 'bottomleft', maxWidth: 150 }).addTo(myMap)})
-        
+
+// Close dropdown menus after clicking an item
+document.querySelectorAll('.dropdown-menu').forEach(function(dropdownMenu) {
+    dropdownMenu.addEventListener('click', function(event) {
+        event.stopPropagation();
+    });
+});
