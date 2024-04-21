@@ -132,11 +132,10 @@ def weather():
         output.append(x)
     return json.loads(json_util.dumps(output))
 
+@app.route('/affordable_housing')
+def affordable_hosuing():
 
-@app.route("/api/v1.0/find_houses", methods=['GET'])
-def find_houses():
-    # Extract preTaxIncome from query parameters
-    pre_tax_income = request.args.get('preTaxIncome')
+    return render_template('AffordableHousing.html')
 
     # Extract pagination parameters
     page = request.args.get('page', default=1, type=int)
@@ -174,7 +173,6 @@ def predictions(lat, lon, floor,beds,baths,garage,price,condo,det,townh,other):
             response = {
                 'prediction' :output
             }
-            return (jsonify(response)) 
-
+            return (jsonify(response))  
 if __name__ == '__main__':
     app.run(debug=True)

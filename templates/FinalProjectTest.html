@@ -51,18 +51,18 @@
                    <a class="nav-link" href="#">Home</a>
                </li>
                <li class="nav-item dropdown dropdown-hover">
-                  <a class="nav-link dropdown-toggle" href="#"  id="cityDropdown" role="button"
-                     aria-expanded="false">
-                     Cities
-                  </a>
-                  <ul class="dropdown-menu" aria-labelledby="cityDropdown" onchange="optionChanged(this.value)">
-                     <li><a class="dropdown-item" href="#" id="AllCities">All Cities</a></li>
-                     <li><a class="dropdown-item" href="#" id="Burlington">Burlington</a></li>
-                     <li><a class="dropdown-item" href="#" id="Milton">Milton</a></li>
-                     <li><a class="dropdown-item" href="#" id="Oakville">Oakville</a></li>
-                     <li><a class="dropdown-item" href="#" id="Oshawa">Oshawa</a></li>
-                     <li><a class="dropdown-item" href="#" id="Vaughan">Vaughan</a></li>
-                  </ul>
+                   <a class="nav-link dropdown-toggle" href="#" id="cityDropdown" role="button"
+                       aria-expanded="false">
+                       Cities
+                   </a>
+                   <ul class="dropdown-menu" aria-labelledby="cityDropdown" onchange="optionChanged(this.value)">
+                       <li><a class="dropdown-item" href="#" id="AllCities">All Cities</a></li>
+                       <li><a class="dropdown-item" href="#" id="Burlington">Burlington</a></li>
+                       <li><a class="dropdown-item" href="#" id="Milton">Milton</a></li>
+                       <li><a class="dropdown-item" href="#" id="Oakville">Oakville</a></li>
+                       <li><a class="dropdown-item" href="#" id="Oshawa">Oshawa</a></li>
+                       <li><a class="dropdown-item" href="#" id="Vaughan">Vaughan</a></li>
+                   </ul>
                </li>
                <li class="nav-item dropdown dropdown-hover">
                    <a class="nav-link dropdown-toggle" href="#" id="mlDropdown" role="button"
@@ -75,7 +75,8 @@
                    </ul>
                </li>
                <li class="nav-item dropdown">
-                   <a class="nav-link" href="affordable.html">Affordable Housing</a>
+                   <a class="nav-link" href="/affordable_housing">Affordable Housing</a>
+
                </li>
            </ul>
        </div>
@@ -149,6 +150,19 @@
       <script type="text/javascript" src="static/js/logic.js"></script>
       <!-- Our CSS -->
       <link rel="stylesheet" type="text/css" href="static/css/style.css">
+      <script>
+         document.addEventListener('DOMContentLoaded', function() {
+             // Get the navbar link for Affordable Housing dropdown
+             var affordableHousingDropdown = document.getElementById("affordableHousingDropdown");
+ 
+             // Add click event listener to toggle the dropdown
+             affordableHousingDropdown.addEventListener('click', function(event) {
+                 event.preventDefault(); // Prevent the default link behavior
+                 var dropdownMenu = affordableHousingDropdown.nextElementSibling;
+                 dropdownMenu.classList.toggle('show');
+             });
+         });
+     </script>
 <!-- https://hub.ovh2.mybinder.org/user/maisiedegraaf-h-g-project_final-bmnexpbh/lab  
 This is our binder link -->
       <!-- Dropdown Change Event Script -->
