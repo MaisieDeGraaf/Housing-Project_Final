@@ -1,11 +1,11 @@
 // Attach event listener to form submission
 if (window.location.pathname === '/AffordableHousing.html') {
-    document.getElementById("searchButton").addEventListener("click", handleFormSubmission);
+    document.getElementById("searchForm").addEventListener("submit", handleFormSubmission);
 }
 
 // Function to handle form submission
 function handleFormSubmission(event) {
-    event.preventDefault(); // Prevent the default form submission behavior (sends you directly to API url)
+    event.preventDefault(); // Prevent the default form submission behavior
 
     var preTaxIncome = document.getElementById('preTaxIncomeInput').value;
 
@@ -20,7 +20,6 @@ function handleFormSubmission(event) {
             populateTable(data);
         })
         .catch(error => console.error('Error fetching data:', error));
-}
 
 // Populate the table with data
 function populateTable(data) {
@@ -48,4 +47,21 @@ function populateTable(data) {
             }
         });
     });
+}
+
+// Filter table based on selected city
+document.getElementById('cityFilter').addEventListener('change', function() {
+    var selectedCity = this.value;
+    var tableRows = document.querySelectorAll('#resultsBody tr');
+
+    tableRows.forEach(function(row) {
+        var cityCell = row.querySelector('td:nth-child(5)'); // nth-child(5) - city is the 5th column
+        var city = cityCell.textContent.trim();
+        if (selectedCity === '' || city === selectedCity) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+});
 }
