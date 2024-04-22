@@ -9,6 +9,16 @@ function handleFormSubmission(event) {
 
     var preTaxIncome = document.getElementById('preTaxIncomeInput').value;
 
+    // Check if the input value is greater than 0
+    if (preTaxIncome <= 0) {
+        // Show the alert message
+        document.getElementById("alertMessage").classList.remove("d-none");
+        return; // Exit the function if validation fails
+    } else {
+    // Hide the alert message if validation succeeds
+    document.getElementById("alertMessage").classList.add("d-none");
+    }
+
     // Construct the query string manually
     var queryParams = "preTaxIncome=" + encodeURIComponent(preTaxIncome) + "&status=For Sale";
 
