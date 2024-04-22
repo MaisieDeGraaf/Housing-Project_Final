@@ -136,9 +136,11 @@ def weather():
 def api_affordable_housing():
     income = request.args.get('preTaxIncome', type=float)
     status = request.args.get('status')
-    query = {"price": {"$lte": income}}
+    cities = ['Burlington', 'Milton', 'Oakville', 'Oshawa', 'Vaughan']
+    query = {"price": {"$lte": income}, "city": {"$in": cities}}
     if status:
         query["status"] = status
+
     results = all_houses.find(query)
     output = []
     for x in results:
