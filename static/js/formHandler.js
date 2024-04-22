@@ -1,5 +1,7 @@
 // Attach event listener to form submission
-document.getElementById("searchButton").addEventListener("click", handleFormSubmission);
+if (window.location.pathname === '/AffordableHousing.html') {
+    document.getElementById("searchButton").addEventListener("click", handleFormSubmission);
+}
 
 // Function to handle form submission
 function handleFormSubmission(event) {
