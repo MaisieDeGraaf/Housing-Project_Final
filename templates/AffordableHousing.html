@@ -34,12 +34,12 @@
                         </div>
                     </div>
                     <div class="invalid-feedback">
-                        Please enter a number greater than 0 in the search box.
+                        Please enter a number greater than 0.
                     </div>
                 </form>
                 <!-- Danger alert for validation -->
                 <div class="alert alert-danger mt-2 d-none" id="alertMessage" role="alert">
-                    Please enter a number greater than 0 in the search box.
+                    Please enter a number greater than 0.
                 </div>
             </div> <!-- Middle column -->
             <div class="col-sm-4"></div> <!-- Right column -->
@@ -49,7 +49,21 @@
     <!-- Table to display results -->
     <div class="container mt-5">
         <h2>Listings</h2>
-        <div class="table-responsive">
+        <!-- Filter dropdown for cities -->
+        <div class="row justify-content-end">
+            <div class="col-sm-3">
+                <select class="form-select" id="cityFilter">
+                    <option value="">All Cities</option>
+                    <option value="Burlington">Burlington</option>
+                    <option value="Milton">Milton</option>
+                    <option value="Oakville">Oakville</option>
+                    <option value="Oshawa">Oshawa</option>
+                    <option value="Vaughan">Vaughan</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="table-responsive mt-3">
             <table class="table table-striped">
                 <thead>
                 <tr>
