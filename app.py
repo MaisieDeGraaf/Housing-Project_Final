@@ -163,3 +163,4 @@ def predictions(lat, lon, floor,beds,baths,garage,price,condo,det,townh,other):
 
 if __name__ == '__main__':
     app.run(debug=True)
+    
