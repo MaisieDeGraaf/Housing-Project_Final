@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container mt-5">
+        <h2>What is affordable housing?</h2>
+        <p>The Canada Mortgage and Housing Corporation (CMHC) states that in Canada, housing is considered “affordable” if it costs less than 30% of a household’s before-tax income.</p>
+    </div>
+
+<!-- NOT WORKING!! Need to fix -->
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-sm-4"></div> <!-- Left column -->
+            <div class="col-sm-4"> <!-- Middle column -->
+                <div class='tableauPlaceholder' id='viz1713749855770' style='position: relative'>
+                    <noscript>
+                        <a href='https://public.tableau.com/views/FinalProject_17137493748640/Sheet1?:language=en-US&publish=yes&:sid=&:display_count=n&:origin=viz_share_link'> </a>
+                    </noscript>
+                </div>
+            </div>
+            <div class="col-sm-4"> <!--  Right column -->
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <p>Find some available houses based on your income.</p>
+        <div class="row justify-content-center">
+            <div class="col-sm-4"></div> <!-- Left column -->
+            <div class="col-sm-4"> <!-- Middle column -->
+                <form class="needs-validation" id="searchForm" action="/api/v1.0/affordable_housing" method="GET" novalidate>
+                    <div class="input-group">
+                        <input class="form-control me-2" type="number" placeholder="Enter your pre-tax income" aria-label="Search" name="preTaxIncome" id="preTaxIncomeInput" required>
+                        <div class="input-group-append">
+                            <button type="submit" id="searchButton" class="btn btn-dark mx-auto">Search!</button>
+                        </div>
+                    </div>
+                    <div class="invalid-feedback">
+                        Please enter a number greater than 0.
+                    </div>
+                </form>
+                <!-- Danger alert for validation -->
+                <div class="alert alert-danger mt-2 d-none" id="alertMessage" role="alert">
+                    Please enter a number greater than 0.
+                </div>
+            </div> <!-- Middle column -->
+            <div class="col-sm-4"></div> <!-- Right column -->
+        </div>
+    </div>
+
+    <!-- Table to display results -->
+    <div class="container mt-5">
+        <h2>Listings</h2>
+        <!-- Filter dropdown for cities -->
+        <div class="row justify-content-end">
+            <div class="col-sm-3">
+                <select class="form-select" id="cityFilter">
+                    <option value="">All Cities</option>
+                    <option value="Burlington">Burlington</option>
+                    <option value="Milton">Milton</option>
+                    <option value="Oakville">Oakville</option>
+                    <option value="Oshawa">Oshawa</option>
+                    <option value="Vaughan">Vaughan</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="table-responsive mt-3">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Address</th>
+                    <th>Type of House</th>
+                    <th>Bedrooms</th>
+                    <th>Bathrooms</th>
+                    <th>City</th>
+                    <th>Price</th>
+                    <th>Mortgage Insurance Eligible</th>
+                    <th>Min. Down Payment for Insurance</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody id="resultsBody">
+                <!-- Table rows will be dynamically added here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="../static/js/formHandler.js"></script>
+{% endblock %}
