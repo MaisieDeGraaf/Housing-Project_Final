@@ -36,7 +36,7 @@ GEOAPIFY API (weather data + leisure spots) and House Sigma (listings).
 2. Maisie DeGraaf (@MaisieDeGraaf); Html & CSS code - Create the html header, Body, Div. Web scraper for data collection on houses to upload to Mongo, Weather data collection, calculation, and display.<br>
 3. Peggy Tadi (@peggz19); Neural Network Model Assessment –  <br>
 4. Pooja Niranjan (@Pooja14n); Machine Learning Model Assessment <br>
-5. Robert Skrepnek (@RSkrep); Dropdown menu for each city, neighborhood, home type (condo, townhome, semi-detached, detached), price*(filter) 
+5. Robert Skrepnek (@RSkrep); Dropdown menu for each city, neighborhood, home type (condo, townhome, semi-detached, detached), price*(filter), creation of Binder links
 
 # Technologies used
 1. MongoDB <br>
