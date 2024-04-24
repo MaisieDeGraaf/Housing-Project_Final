@@ -1,6 +1,8 @@
 # Housing-Project_Final
 
+![Untitled](https://github.com/MaisieDeGraaf/Housing-Project_Final/assets/144713762/44281161-46f8-4a06-9498-130eaa0b7516)
 
+![2](https://github.com/MaisieDeGraaf/Housing-Project_Final/assets/144713762/066caac3-d220-4396-ad49-07a069b73cd3)
 
 
 # Project Overview
