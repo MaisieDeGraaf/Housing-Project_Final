@@ -95,7 +95,6 @@ footer {
 }
 
 .weather-box {
-  display: none;
   color: rgb(70, 70, 70);
   background-color: #f0f0f0;
   border-radius: 10px;
