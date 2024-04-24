@@ -41,6 +41,7 @@ GEOAPIFY API (weather data + leisure spots) and House Sigma (listings).
 6. Machine Learning - Scikit-learn
 7. Keras
 8. Tensor Flow
+9. Python Pickle
 
 # References
 Referred to various class activity exercises, got support from Assistant Instructor, and websites.
