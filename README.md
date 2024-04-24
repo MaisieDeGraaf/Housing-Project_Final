@@ -21,7 +21,11 @@ Using our web scraper to gather more data, we have created two machine learning 
 3. Preprocessing & Data Preparation <br>
 4. Implementing Machine Learning Models: <br>
    a. Linear Regression <br>
+   ![3](https://github.com/MaisieDeGraaf/Housing-Project_Final/assets/144713762/805dbe51-c008-4815-b294-6fc36682118f)
+
    b. Neural Networks <br>
+   ![4](https://github.com/MaisieDeGraaf/Housing-Project_Final/assets/144713762/46190525-308e-464c-9bed-ed9570603366)
+
 5. Data Analysis <br>
 
 # Datasets used:
