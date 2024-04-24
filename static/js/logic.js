@@ -47,9 +47,7 @@ let streetmap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
 }).addTo(myMap);
 
 //BASE MAP
-let baseMaps = {
-    "Street Map": streetmap
-};
+let baseMaps = {};
 
 // Add icons for housing markers src: https://leafletjs.com/examples/custom-icons/
 let LeafIcon = L.Icon.extend({
