@@ -95,17 +95,19 @@ footer {
 }
 
 .weather-box {
-  display: none;
   color: rgb(70, 70, 70);
   background-color: #f0f0f0;
   border-radius: 10px;
   padding: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-top: 20px; 
 }
 
 #weather-header {
   font-size: 20px;
+  margin-right: 10px; 
 }
+
 
 /* Chart Styles */
 .charts-container {

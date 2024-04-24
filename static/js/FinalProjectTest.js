@@ -1,55 +1,118 @@
-// Call URL using d3
 let URL = 'http://127.0.0.1:5000/api/v1.0/housing';
 let weatherURL = "http://127.0.0.1:5000/api/v1.0/weather";
 
-d3.json(weatherURL).then(weatherData => {
-    console.log("Weather data:", weatherData);
-    let currentDate = new Date();
-    let currentMonth = currentDate.getMonth() + 1;
-    let currentDay = currentDate.getDate();
-    console.log("date:", currentDate);
-    console.log("day:", currentDay);
-    console.log("month:", currentMonth);
+// Function to get data weather data 
+function initializeWeatherApp() {
 
-    let weatherDataForCurrentDate = weatherData.filter(entry => {
-        return entry.local_month === currentMonth && entry.local_day === currentDay;
-    });
-    console.log("Weather data for current month and day:", weatherDataForCurrentDate);
-    let averageMaxTemperature = weatherDataForCurrentDate.reduce((acc, curr) => acc + curr.max_temperature, 0) / weatherDataForCurrentDate.length;
-    let averageMinTemperature = weatherDataForCurrentDate.reduce((acc, curr) => acc + curr.min_temperature, 0) / weatherDataForCurrentDate.length;
-    let averagePrecipitation = weatherDataForCurrentDate.reduce((acc, curr) => acc + curr.total_precipitation, 0) / weatherDataForCurrentDate.length;
+    d3.json(weatherURL)
+        .then(weatherData => {
+            
+            window.weatherData = weatherData;
 
-    let weatherBox = document.getElementById("weather-box");
-    weatherBox.innerHTML = `
-        <p>Average Max Temperature: ${averageMaxTemperature.toFixed(2)}°C</p>
-        <p>Average Min Temperature: ${averageMinTemperature.toFixed(2)}°C</p>
-        <p>Average Precipitation: ${averagePrecipitation.toFixed(2)} cm</p>
-    `;
-}).catch(error => {
-    console.error('Error loading weather data:', error);
-});
+            // Populate the date selection dropdown
+            populateDateSelect();
 
-document.getElementById('weather-toggle').addEventListener('click', function() {
-    let weatherBox = document.getElementById('weather-box');
-    let arrowIcon = document.getElementById('arrow-icon');
-    
-    if (weatherBox.style.display === 'none') {
-        weatherBox.style.display = 'block';
-        arrowIcon.classList.add('fa-chevron-up');
-        arrowIcon.classList.remove('fa-chevron-down');
-    } else {
-        weatherBox.style.display = 'none';
-        arrowIcon.classList.remove('fa-chevron-up');
-        arrowIcon.classList.add('fa-chevron-down');
+            // Display weather for the initial selected date (e.g., today)
+            const currentDate = new Date();
+            displayWeather(currentDate);
+        })
+        .catch(error => {
+            console.error('Error loading weather data:', error);
+        });
+}
+
+// Function to populate the dropdown menu
+function populateDateSelect() {
+    const dateSelect = document.getElementById('date-select');
+    const currentDate = new Date();
+
+
+    for (let i = 0; i < 5; i++) {
+        let date = new Date(currentDate);
+        date.setDate(currentDate.getDate() + i);
+        const options = { weekday: 'short', month: 'short', day: 'numeric' };
+        const formattedDate = date.toLocaleDateString('en-US', options);
+        const option = document.createElement('option');
+        option.value = i; 
+        option.textContent = formattedDate;
+        dateSelect.appendChild(option);
     }
-});
 
-document.addEventListener('DOMContentLoaded', function() {
-    let currentDate = new Date();
-    let options = { year: 'numeric', month: 'long', day: 'numeric' };
-    let formattedDate = currentDate.toLocaleDateString('en-US', options);
-    document.getElementById('weather-header').textContent += formattedDate;
-});
+    dateSelect.addEventListener('change', function() {
+        const selectedIndex = parseInt(this.value);
+        if (!isNaN(selectedIndex)) {
+            const selectedDate = new Date(currentDate);
+            selectedDate.setDate(currentDate.getDate() + selectedIndex);
+            displayWeather(selectedDate);
+        }
+    });
+}
+
+// Function to display weather 
+function displayWeather(selectedDate) {
+    console.log('Selected Date:', selectedDate);
+
+    const selectedMonth = selectedDate.getMonth() + 1;
+    const selectedDay = selectedDate.getDate();
+
+    console.log('Selected Month:', selectedMonth);
+    console.log('Selected Day:', selectedDay);
+
+    if (window.weatherData) {
+        console.log('Weather Data:', window.weatherData);
+
+        const weatherDataForSelectedDate = window.weatherData.filter(entry => {
+            return entry.local_month === selectedMonth && entry.local_day === selectedDay;
+        });
+
+        console.log('Weather Data for Selected Date:', weatherDataForSelectedDate);
+
+        if (weatherDataForSelectedDate.length > 0) {
+            const averageMaxTemperature = calculateAverage(weatherDataForSelectedDate, 'max_temperature');
+            const averageMinTemperature = calculateAverage(weatherDataForSelectedDate, 'min_temperature');
+            const averagePrecipitation = calculateAverage(weatherDataForSelectedDate, 'total_precipitation');
+            const totalSnowDays = weatherDataForSelectedDate.filter(entry => entry.total_snow > 0).length;
+            const totalRainyDays = weatherDataForSelectedDate.filter(entry => entry.total_rain > 0).length;
+            const totalDays = weatherDataForSelectedDate.length;
+
+            console.log('Average Max Temperature:', averageMaxTemperature);
+            console.log('Average Min Temperature:', averageMinTemperature);
+            console.log('Average Precipitation:', averagePrecipitation);
+            console.log('Total Snow Days:', totalSnowDays);
+            console.log('Total Rainy Days:', totalRainyDays);
+            console.log('Total Days with Data:', totalDays);
+
+            const snowProbability = (totalSnowDays / totalDays) * 100;
+            const rainProbability = (totalRainyDays / totalDays) * 100;
+
+            console.log('Snow Probability:', snowProbability);
+            console.log('Rain Probability:', rainProbability);
+
+            const weatherBox = document.getElementById('weather-box');
+            weatherBox.innerHTML = `
+                <p>Average Max Temperature: ${averageMaxTemperature.toFixed(2)}°C</p>
+                <p>Average Min Temperature: ${averageMinTemperature.toFixed(2)}°C</p>
+                <p>Average Precipitation: ${averagePrecipitation.toFixed(2)} cm</p>
+                <p>Snow Probability: ${snowProbability.toFixed(2)}%</p>
+                <p>Rain Probability: ${rainProbability.toFixed(2)}%</p>
+            `;
+        } else {
+            const weatherBox = document.getElementById('weather-box');
+            weatherBox.textContent = "No weather data available for the selected date.";
+        }
+    } else {
+        console.error('weatherData is not defined.'); 
+    }
+}
+
+// Function to calculate average
+function calculateAverage(data, key) {
+    if (data.length === 0) return 0;
+    const sum = data.reduce((acc, curr) => acc + curr[key], 0);
+    return sum / data.length;
+}
+
+document.addEventListener('DOMContentLoaded', initializeWeatherApp);
 
 d3.json(URL)
   .then(function(data) {
