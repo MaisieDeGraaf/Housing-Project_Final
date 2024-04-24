@@ -32,7 +32,7 @@ Using our web scraper to gather more data, we have created two machine learning 
 GEOAPIFY API (weather data + leisure spots) and House Sigma (listings).
 
 # Members of the Group & Work breakdown structure
-1. Jaylene Hughes (@jhyooz); API scraper & convert data from sqllit to mongodb <br>
+1. Jaylene Hughes (@jhyooz); API scraper & convert data from sqllit to mongodb, affordable housing table and form, income and affordability calculation of each available house <br>
 2. Maisie DeGraaf (@MaisieDeGraaf); Html & CSS code - Create the html header, Body, Div. Web scraper for data collection on houses to upload to Mongo, Weather data collection, calculation, and display.<br>
 3. Peggy Tadi (@peggz19); Neural Network Model Assessment –  <br>
 4. Pooja Niranjan (@Pooja14n); Machine Learning Model Assessment <br>
