@@ -1,28 +1,45 @@
-// Attach event listener to form submission
-if (window.location.pathname === '/AffordableHousing.html') {
-    document.getElementById("searchForm").addEventListener("submit", handleFormSubmission);
-}
+document.addEventListener('DOMContentLoaded', function() {
+    // Attach event listener to form submission
+    var searchForm = document.getElementById("searchForm");
+    if (searchForm) {
+        searchForm.addEventListener("submit", handleFormSubmission);
+    }
+
+    // Attach event listener to city filter
+    var cityFilter = document.getElementById('cityFilter');
+    if (cityFilter) {
+        cityFilter.addEventListener('change', function() {
+            var selectedCity = this.value;
+            var tableRows = document.querySelectorAll('#resultsBody tr');
+            tableRows.forEach(function(row) {
+                var cityCell = row.querySelector('td:nth-child(5)');
+                var city = cityCell.textContent.trim();
+                if (selectedCity === '' || city === selectedCity) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    }
+});
 
 // Function to handle form submission
 function handleFormSubmission(event) {
-    event.preventDefault(); // Prevent the default form submission behavior
+    event.preventDefault();
 
     var preTaxIncome = document.getElementById('preTaxIncomeInput').value;
+    var downPayment = document.getElementById('downPaymentInput').value;
 
-    // Check if the input value is greater than 0
-    if (preTaxIncome <= 0) {
-        // Show the alert message
+    if (preTaxIncome <= 0 || downPayment < 0) {
         document.getElementById("alertMessage").classList.remove("d-none");
-        return; // Exit the function if validation fails
+        return;
     } else {
-    // Hide the alert message if validation succeeds
-    document.getElementById("alertMessage").classList.add("d-none");
+        document.getElementById("alertMessage").classList.add("d-none");
     }
 
-    // Construct the query string manually
-    var queryParams = "preTaxIncome=" + encodeURIComponent(preTaxIncome) + "&status=For Sale";
+    var queryParams = "preTaxIncome=" + encodeURIComponent(preTaxIncome) + "&downPayment=" + encodeURIComponent(downPayment) + "&status=For Sale";
 
-    // Fetch data from the API endpoint
     fetch('/api/v1.0/affordable_housing?' + queryParams)
         .then(response => response.json())
         .then(data => {
@@ -30,6 +47,7 @@ function handleFormSubmission(event) {
             populateTable(data);
         })
         .catch(error => console.error('Error fetching data:', error));
+}
 
 // Populate the table with data
 function populateTable(data) {
@@ -74,4 +92,3 @@ document.getElementById('cityFilter').addEventListener('change', function() {
         }
     });
 });
-}
