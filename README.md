@@ -50,6 +50,4 @@ GEOAPIFY API (weather data + leisure spots) and House Sigma (listings).
 9. Python Pickle <br>
 
 # References
-Referred to various class activity exercises, got support from Assistant Instructor, and websites.
-
-# Link to Presentation:
+Referred to various class activity exercises, got support from the Instructor, Assistant Instructors, and various documentation websites for the relevant technology used.
