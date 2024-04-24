@@ -10,24 +10,44 @@ d3.json(weatherURL).then(weatherData => {
     console.log("date:", currentDate);
     console.log("day:", currentDay);
     console.log("month:", currentMonth);
+    console.log("test")
 
     let weatherDataForCurrentDate = weatherData.filter(entry => {
         return entry.local_month === currentMonth && entry.local_day === currentDay;
     });
     console.log("Weather data for current month and day:", weatherDataForCurrentDate);
-    let averageMaxTemperature = weatherDataForCurrentDate.reduce((acc, curr) => acc + curr.max_temperature, 0) / weatherDataForCurrentDate.length;
-    let averageMinTemperature = weatherDataForCurrentDate.reduce((acc, curr) => acc + curr.min_temperature, 0) / weatherDataForCurrentDate.length;
-    let averagePrecipitation = weatherDataForCurrentDate.reduce((acc, curr) => acc + curr.total_precipitation, 0) / weatherDataForCurrentDate.length;
+
+    let averageMaxTemperature = calculateAverage(weatherDataForCurrentDate, 'max_temperature');
+    let averageMinTemperature = calculateAverage(weatherDataForCurrentDate, 'min_temperature');
+    let averagePrecipitation = calculateAverage(weatherDataForCurrentDate, 'total_precipitation');
+
+    let totalSnowDays = weatherDataForCurrentDate.filter(entry => entry.total_snow > 0).length;
+    let totalRainyDays = weatherDataForCurrentDate.filter(entry => entry.total_rain > 0).length;
+    let totalDays = weatherDataForCurrentDate.length; 
+    console.log("Total days with snow:", totalSnowDays);
+    console.log("Total days with rain:", totalRainyDays);
+    console.log("Total days with data for current month and day:", totalDays);
+
+    let snowProbability = (totalSnowDays / totalDays) * 100;
+    let rainProbability = (totalRainyDays / totalDays) * 100;
 
     let weatherBox = document.getElementById("weather-box");
     weatherBox.innerHTML = `
         <p>Average Max Temperature: ${averageMaxTemperature.toFixed(2)}°C</p>
         <p>Average Min Temperature: ${averageMinTemperature.toFixed(2)}°C</p>
         <p>Average Precipitation: ${averagePrecipitation.toFixed(2)} cm</p>
+        <p>Snow Probability: ${snowProbability.toFixed(2)}%</p>
+        <p>Rain Probability: ${rainProbability.toFixed(2)}%</p>
     `;
 }).catch(error => {
     console.error('Error loading weather data:', error);
 });
+
+function calculateAverage(data, key) {
+    if (data.length === 0) return 0;
+    let sum = data.reduce((acc, curr) => acc + curr[key], 0);
+    return sum / data.length;
+}
 
 document.getElementById('weather-toggle').addEventListener('click', function() {
     let weatherBox = document.getElementById('weather-box');
@@ -43,6 +63,7 @@ document.getElementById('weather-toggle').addEventListener('click', function() {
         arrowIcon.classList.add('fa-chevron-down');
     }
 });
+
 
 document.addEventListener('DOMContentLoaded', function() {
     let currentDate = new Date();
