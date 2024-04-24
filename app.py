@@ -135,15 +135,22 @@ def weather():
 @app.route("/api/v1.0/affordable_housing")
 def api_affordable_housing():
     income = request.args.get('preTaxIncome', type=float)
+    down_payment = request.args.get('downPayment', type=float)
     status = request.args.get('status')
-    query = {"price": {"$lte": income}}
+    
+    # Calculate maximum affordable price based on income and down payment
+    max_affordable_price = income * 3.33333  # 30% of income
+    max_affordable_price -= down_payment  # Subtract down payment from max affordable price
+    
+    query = {"price": {"$lte": max_affordable_price}}
     if status:
         query["status"] = status
+    
     results = all_houses.find(query)
-    output = []
-    for x in results:
-        output.append(x)
+    output = list(results)  # Convert cursor to list
+    
     return json.loads(json_util.dumps(output))
+
 
 @app.route('/api/v1.0/predictions/<lat>/<lon>/<floor>/<beds>/<baths>/<garage>/<price>/<condo>/<det>/<townh>/<other>')
 def predictions(lat, lon, floor,beds,baths,garage,price,condo,det,townh,other):
